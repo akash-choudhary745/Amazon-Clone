@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        table {
+            width: 50%;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        td {
+            padding: 10px;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+        button {
+            background-color: green;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+
+    <form onsubmit="return validateForm()">
+        <table border="1">
+            <tr>
+                <th colspan="2"><h2>Registration Form</h2></th>
+            </tr>
+            <tr>
+                <td><label for="username">Username:</label></td>
+                <td>
+                    <input type="text" id="username" name="username">
+                    <span id="username-error" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="email">Email:</label></td>
+                <td>
+                    <input type="email" id="email" name="email">
+                    <span id="email-error" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="password">Password:</label></td>
+                <td>
+                    <input type="password" id="password" name="password">
+                    <span id="password-error" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="confirm-password">Confirm Password:</label></td>
+                <td>
+                    <input type="password" id="confirm-password" name="confirm-password">
+                    <span id="confirm-password-error" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="phone">Phone Number:</label></td>
+                <td>
+                    <input type="text" id="phone" name="phone">
+                    <span id="phone-error" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <button type="submit">Register</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        function validateForm() {
+            let valid = true;
+
+            // Get form values
+            let username = document.getElementById("username").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let password = document.getElementById("password").value;
+            let confirmPassword = document.getElementById("confirm-password").value;
+            let phone = document.getElementById("phone").value.trim();
+
+            // Clear error messages
+            document.getElementById("username-error").textContent = "";
+            document.getElementById("email-error").textContent = "";
+            document.getElementById("password-error").textContent = "";
+            document.getElementById("confirm-password-error").textContent = "";
+            document.getElementById("phone-error").textContent = "";
+
+            // Validation checks
+            if (username.length < 5) {
+                document.getElementById("username-error").textContent = "Username must be at least 5 characters.";
+                valid = false;
+            }
+
+            let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById("email-error").textContent = "Enter a valid email address.";
+                valid = false;
+            }
+
+            let passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordPattern.test(password)) {
+                document.getElementById("password-error").textContent = "Password must be 8+ chars, include uppercase, number, and special character.";
+                valid = false;
+            }
+
+            if (confirmPassword !== password) {
+                document.getElementById("confirm-password-error").textContent = "Passwords do not match.";
+                valid = false;
+            }
+
+            let phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phone)) {
+                document.getElementById("phone-error").textContent = "Phone number must be 10 digits.";
+                valid = false;
+            }
+
+            // If valid, redirect to next page
+            if (valid) {
+                localStorage.setItem("username", username); // Store username
+                window.location.href = "welcome.html"; // Redirect
+            }
+
+            return false; // Prevent default form submission
+        }
+    </script>
+
+</body>
+</html>
